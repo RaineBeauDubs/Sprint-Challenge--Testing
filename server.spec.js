@@ -14,7 +14,13 @@ describe("GET /games", () => {
     const response = await request(server).get('/games');
 
     expect(response.body.games).toEqual(expect.arrayContaining(expected));
-  })
+  });
+
+  it('should return as JSON', async () => {
+    const response = await request(server).get('/games');
+
+    expect(response.type).toBe('application/json');
+  });
 });
 
 describe('POST /games', () => {
@@ -30,7 +36,7 @@ describe('POST /games', () => {
     expect(response.status).toEqual(422);
   })
 
-  it('required fields must be included in body to post', async () => {
+  it('should return a status 200 when all required fields are filled out', async () => {
     let game = {
       title: 'Poke the Possibly Plauge-Riddled Dead Rat',
       genre: 'Mideval Lawn',
@@ -42,4 +48,26 @@ describe('POST /games', () => {
     
     expect(response.status).toEqual(200);
   })
+
+  it('should post as JSON', async () => {
+    const response = await request(server).post('/games');
+
+    expect(response.type).toBe('application/json');
+  });
+
+
+
+  // it('should post when required fields are filled out', async () => {
+  //   let game = {
+  //     title: 'Poke the Possibly Plauge-Riddled Dead Rat',
+  //     genre: 'Mideval Lawn',
+  //     releaseYear: 1427
+  //   }
+  //   const response = await request(server)
+  //     .post('/games')
+  //     .send(game);
+    
+
+  //   expect(response.body.games).toEqual(expect.objectContaining(game));
+  // })
 })
