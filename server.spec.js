@@ -16,3 +16,30 @@ describe("GET /games", () => {
     expect(response.body.games).toEqual(expect.arrayContaining(expected));
   })
 });
+
+describe('POST /games', () => {
+  it('required fields must be included in body to post, less recieve a 422', async () => {
+    let game = {
+      genre: 'Mideval Lawn',
+      releaseYear: 1427
+    }
+    const response = await request(server)
+      .post('/games')
+      .send(game)
+    
+    expect(response.status).toEqual(422);
+  })
+
+  it('required fields must be included in body to post', async () => {
+    let game = {
+      title: 'Poke the Possibly Plauge-Riddled Dead Rat',
+      genre: 'Mideval Lawn',
+      releaseYear: 1427
+    }
+    const response = await request(server)
+      .post('/games')
+      .send(game);
+    
+    expect(response.status).toEqual(200);
+  })
+})
